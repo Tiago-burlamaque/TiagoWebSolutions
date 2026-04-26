@@ -1,0 +1,543 @@
+@import "tailwindcss";
+
+/* ============================================
+   CSS VARIABLES
+   ============================================ */
+
+:root {
+  /* Liquid Glass Effect */
+  --glass-bg: rgba(255, 255, 255, 0.05);
+  --glass-bg-hover: rgba(255, 255, 255, 0.08);
+  --glass-bg-strong: rgba(255, 255, 255, 0.07);
+  --glass-border: rgba(255, 255, 255, 0.08);
+  --glass-border-hover: rgba(255, 255, 255, 0.15);
+  --glass-shadow: rgba(0, 0, 0, 0.25);
+  --glass-shadow-strong: rgba(0, 0, 0, 0.35);
+
+  /* Accent Colors */
+  --accent: #a1a1aa;
+  --accent-light: #d4d4d8;
+  --accent-dark: #71717a;
+
+  /* Background Gradient */
+  --bg-gradient-start: #08080c;
+  --bg-gradient-end: #0f0f14;
+
+  /* Foreground */
+  --foreground: #f4f4f5;
+  --foreground-muted: #a1a1aa;
+  --foreground-subtle: #71717a;
+
+  /* Neutrals */
+  --neutral-50: #fafafa;
+  --neutral-100: #f4f4f5;
+  --neutral-200: #e4e4e7;
+  --neutral-300: #d4d4d8;
+  --neutral-400: #a1a1aa;
+  --neutral-500: #71717a;
+  --neutral-600: #52525b;
+  --neutral-700: #3f3f46;
+  --neutral-800: #27272a;
+  --neutral-900: #18181b;
+  --neutral-950: #09090b;
+}
+
+/* ============================================
+   TAILWIND THEME
+   ============================================ */
+
+@theme inline {
+  --color-background: var(--foreground);
+  --color-foreground: var(--foreground);
+  --color-foreground-muted: var(--foreground-muted);
+  --color-foreground-subtle: var(--foreground-subtle);
+  --color-accent: var(--accent);
+  --color-accent-light: var(--accent-light);
+  --color-accent-dark: var(--accent-dark);
+  --color-glass: var(--glass-bg);
+  --color-glass-hover: var(--glass-bg-hover);
+  --color-glass-border: var(--glass-border);
+
+  /* Fonts */
+  --font-sans: var(--font-geist-sans), system-ui, -apple-system, sans-serif;
+  --font-mono: var(--font-geist-mono), monospace;
+}
+
+/* ============================================
+   BASE STYLES
+   ============================================ */
+
+*,
+*::before,
+*::after {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  background: linear-gradient(180deg, var(--bg-gradient-start) 0%, var(--bg-gradient-end) 100%);
+  background-attachment: fixed;
+  color: var(--foreground);
+  font-family: var(--font-sans);
+  min-height: 100vh;
+  overflow-x: hidden;
+  line-height: 1.6;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+/* Scroll Direction Variables */
+[data-scroll-dir="up"] {
+  --scroll-from-y: -60px;
+}
+
+[data-scroll-dir="down"] {
+  --scroll-from-y: 60px;
+}
+
+/* ============================================
+   LIQUID GLASS COMPONENTS
+   ============================================ */
+
+/* Base Glass */
+.glass {
+  position: relative;
+  background: var(--glass-bg);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border: 1px solid var(--glass-border);
+  box-shadow:
+    0 8px 32px var(--glass-shadow),
+    inset 0 1px 0 rgba(255, 255, 255, 0.05);
+  padding: 20px;
+  margin: 10px;
+
+}
+
+.glass::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  background: linear-gradient(
+    135deg,
+    rgba(255, 255, 255, 0.1) 0%,
+    transparent 50%,
+    transparent 100%
+  );
+  pointer-events: none;
+}
+
+/* Strong Glass - for elevated elements */
+.glass-strong {
+  position: relative;
+  background: var(--glass-bg-strong);
+  backdrop-filter: blur(24px);
+  -webkit-backdrop-filter: blur(24px);
+  border: 1px solid var(--glass-border-hover);
+  box-shadow:
+    0 16px 48px var(--glass-shadow-strong),
+    inset 0 1px 0 rgba(255, 255, 255, 0.08);
+    padding: 30px;
+}
+
+.glass-strong::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  background: linear-gradient(
+    135deg,
+    rgba(255, 255, 255, 0.12) 0%,
+    transparent 40%,
+    transparent 100%
+  );
+  pointer-events: none;
+}
+
+/* Card Glass - for smaller cards */
+.glass-card {
+  position: relative;
+  background: rgba(255, 255, 255, 0.03);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border: 1px solid rgba(255, 255, 255, 0.06);
+  box-shadow: 0 4px 24px rgba(0, 0, 0, 0.15);
+  padding: 10px;
+}
+
+.glass-card::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  background: linear-gradient(
+    135deg,
+    rgba(255, 255, 255, 0.06) 0%,
+    transparent 50%
+  );
+  pointer-events: none;
+}
+
+/* ============================================
+   BACKGROUND BLOBS
+   ============================================ */
+
+.bg-blob {
+  position: fixed;
+  border-radius: 50%;
+  filter: blur(120px);
+  opacity: 0.12;
+  z-index: -1;
+  animation: float 30s ease-in-out infinite;
+  pointer-events: none;
+}
+
+.bg-blob-1 {
+  width: 900px;
+  height: 900px;
+  background: radial-gradient(circle, var(--neutral-600) 0%, transparent 70%);
+  top: -350px;
+  left: -350px;
+}
+
+.bg-blob-2 {
+  width: 800px;
+  height: 800px;
+  background: radial-gradient(circle, var(--neutral-500) 0%, transparent 70%);
+  top: 40%;
+  right: -300px;
+  animation-delay: -10s;
+}
+
+.bg-blob-3 {
+  width: 700px;
+  height: 700px;
+  background: radial-gradient(circle, var(--neutral-700) 0%, transparent 70%);
+  bottom: -300px;
+  left: 25%;
+  animation-delay: -20s;
+}
+
+.bg-blob-4 {
+  width: 500px;
+  height: 500px;
+  background: radial-gradient(circle, var(--neutral-800) 0%, transparent 70%);
+  top: 20%;
+  left: 5%;
+  animation-delay: -15s;
+  opacity: 0.08;
+}
+
+@keyframes float {
+  0%, 100% { transform: translate(0, 0) scale(1);}
+  25% { transform: translate(80px, -80px) scale(1.05); }
+  50% { transform: translate(-50px, 50px) scale(0.95); }
+  75% { transform: translate(-80px, -50px) scale(1.03); }
+}
+
+/* ============================================
+   SCROLL REVEAL ANIMATIONS
+   ============================================ */
+
+.scroll-reveal {
+  opacity: 0;
+  transform: translateY(var(--scroll-from-y, 60px));
+  transition:
+    opacity 0.9s cubic-bezier(0.4, 0, 0.2, 1),
+    transform 0.9s cubic-bezier(0.4, 0, 0.2, 1); 
+}
+
+.scroll-reveal.is-visible {
+  opacity: 1;
+  transform: translateY(0);
+  margin: 10px;
+
+}
+
+.scroll-stagger > * {
+  opacity: 0;
+  transform: translateY(var(--scroll-from-y, 60px));
+  transition:
+    opacity 0.7s cubic-bezier(0.4, 0, 0.2, 1),
+    transform 0.7s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.scroll-stagger.is-visible > *:nth-child(1) { transition-delay: 0ms; }
+.scroll-stagger.is-visible > *:nth-child(2) { transition-delay: 100ms; }
+.scroll-stagger.is-visible > *:nth-child(3) { transition-delay: 200ms; }
+.scroll-stagger.is-visible > *:nth-child(4) { transition-delay: 300ms; }
+.scroll-stagger.is-visible > *:nth-child(5) { transition-delay: 400ms; }
+.scroll-stagger.is-visible > *:nth-child(6) { transition-delay: 500ms; }
+
+.scroll-stagger.is-visible > * {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* ============================================
+   TYPOGRAPHY
+   ============================================ */
+
+.gradient-text {
+  background: linear-gradient(
+    135deg,
+    var(--neutral-100) 0%,
+    var(--neutral-300) 50%,
+    var(--neutral-400) 100%
+  );
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.gradient-text-subtle {
+  background: linear-gradient(135deg, var(--neutral-300), var(--neutral-500));
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+/* ============================================
+   HOVER EFFECTS
+   ============================================ */
+
+.hover-glow {
+  transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.hover-glow:hover {
+  background: var(--glass-bg-hover);
+  border-color: var(--glass-border-hover);
+  box-shadow:
+    0 0 50px rgba(161, 161, 170, 0.12),
+    0 0 100px rgba(161, 161, 170, 0.05),
+    0 20px 50px var(--glass-shadow-strong);
+  transform: translateY(-6px);
+}
+
+/* ============================================
+   BUTTONS
+   ============================================ */
+
+.btn-primary {
+  position: relative;
+  background: linear-gradient(
+    135deg,
+    var(--neutral-600) 0%,
+    var(--neutral-700) 100%
+  );
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+  overflow: hidden;
+  padding: 10px;
+  border-radius: 10px;
+}
+
+.btn-primary::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    135deg,
+    rgba(255, 255, 255, 0.1) 0%,
+    transparent 50%
+  );
+  opacity: 0;
+  transition: opacity 0.4s ease;
+}
+
+.btn-primary:hover {
+  background: linear-gradient(
+    135deg,
+    var(--neutral-500) 0%,
+    var(--neutral-600) 100%
+  );
+  border-color: rgba(255, 255, 255, 0.2);
+  box-shadow:
+    0 0 30px rgba(161, 161, 170, 0.25),
+    0 0 60px rgba(161, 161, 170, 0.1),
+    inset 0 1px 0 rgba(255, 255, 255, 0.1);
+  transform: translateY(-3px);
+}
+
+.btn-primary:hover::before {
+  opacity: 1;
+}
+
+.btn-secondary {
+  position: relative;
+  background: rgba(255, 255, 255, 0.03);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  backdrop-filter: blur(8px);
+  transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+  overflow: hidden;
+  border-radius: 10px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center; 
+  padding-left: 5px;
+  padding-right: 5px;
+}
+
+.btn-secondary::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    135deg,
+    rgba(255, 255, 255, 0.05) 0%,
+    transparent 50%
+  );
+  opacity: 0;
+  transition: opacity 0.4s ease;
+}
+
+.btn-secondary:hover {
+  background: rgba(255, 255, 255, 0.06);
+  border-color: rgba(161, 161, 170, 0.25);
+  box-shadow:
+    0 0 20px rgba(161, 161, 170, 0.08),
+    inset 0 1px 0 rgba(255, 255, 255, 0.05);
+}
+
+.btn-secondary:hover::before {
+  opacity: 1;
+}
+
+/* ============================================
+   CUSTOM SCROLLBAR
+   ============================================ */
+
+::-webkit-scrollbar {
+  width: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: var(--neutral-950);
+}
+
+::-webkit-scrollbar-thumb {
+  background: linear-gradient(
+    180deg,
+    var(--neutral-700) 0%,
+    var(--neutral-800) 100%
+  );
+  border-radius: 4px;
+  border: 2px solid var(--neutral-950);
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: linear-gradient(
+    180deg,
+    var(--neutral-600) 0%,
+    var(--neutral-700) 100%
+  );
+}
+
+/* ============================================
+   BADGE
+   ============================================ */
+
+.badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.5rem 1rem;
+  border-radius: 9999px;
+  font-size: 0.8125rem;
+  font-weight: 500;
+  letter-spacing: 0.025em;
+  background: rgba(255, 255, 255, 0.04);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  backdrop-filter: blur(8px);
+  color: var(--foreground-muted);
+}
+
+.badge-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: var(--accent);
+  animation: pulse-glow 2.5s ease-in-out infinite;
+}
+
+@keyframes pulse-glow {
+  0%, 100% {
+    opacity: 1;
+    box-shadow: 0 0 0 0 rgba(161, 161, 170, 0.4);
+  }
+  50% {
+    opacity: 0.7;
+    box-shadow: 0 0 0 4px rgba(161, 161, 170, 0);
+  }
+}
+
+/* ============================================
+   INPUT FOCUS STATES
+   ============================================ */
+
+input:focus,
+textarea:focus {
+  outline: none;
+  border-color: rgba(161, 161, 170, 0.3);
+  box-shadow: 0 0 0 3px rgba(161, 161, 170, 0.1);
+}
+
+/* ============================================
+   SELECTION
+   ============================================ */
+
+::selection {
+  background: rgba(161, 161, 170, 0.3);
+  color: var(--neutral-100);
+}
+
+/* ============================================
+   UTILITY ANIMATIONS
+   ============================================ */
+
+@keyframes fade-in {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+@keyframes slide-up {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes scale-in {
+  from {
+    opacity: 0;
+    transform: scale(0.95);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+.animate-fade-in {
+  animation: fade-in 0.6s ease forwards;
+}
+
+.animate-slide-up {
+  animation: slide-up 0.6s ease forwards;
+}
+
+.animate-scale-in {
+  animation: scale-in 0.6s ease forwards;
+}
