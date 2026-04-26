@@ -104,7 +104,6 @@ body {
    LIQUID GLASS COMPONENTS
    ============================================ */
 
-/* Base Glass */
 .glass {
   position: relative;
   background: var(--glass-bg);
@@ -116,7 +115,6 @@ body {
     inset 0 1px 0 rgba(255, 255, 255, 0.05);
   padding: 20px;
   margin: 10px;
-
 }
 
 .glass::before {
@@ -250,14 +248,13 @@ body {
   transform: translateY(var(--scroll-from-y, 60px));
   transition:
     opacity 0.9s cubic-bezier(0.4, 0, 0.2, 1),
-    transform 0.9s cubic-bezier(0.4, 0, 0.2, 1); 
+    transform 0.9s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
 .scroll-reveal.is-visible {
   opacity: 1;
   transform: translateY(0);
   margin: 10px;
-
 }
 
 .scroll-stagger > * {
